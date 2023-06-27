@@ -8,29 +8,44 @@ function App() {
 
   const updateLocation = (location) => {
     setLocation(location)
-    const key = process.env.REACT_APP_LOCATION_KEY
-    console.log(key)
-    findLatitudeAndLongitude(location)
+    findTemp(location)
   }
-
+  //Location API
   const findLatitudeAndLongitude = async (city) => {
     let latitude, longitude;
     try {
-        const response = await axios.get('https://us1.locationiq.com/v1/search.php',
+        const response = await axios.get('https://weather-report-proxy-server-jk7z.onrender.com/location',
         {
             params: {
                 q: city,
-                key: process.env.LOCATION_KEY,
-                format: "json"
+
             }
         });
         latitude = response.data[0].lat;
         longitude = response.data[0].lon;
-        console.log(latitude,longitude)
-    return { latitude, longitude };
+    return {latitude, longitude};
     } catch (err) {
         console.log(err.message)
     }}
+  //OpenWeatherAPI
+  const findTemp = async () => {
+    const {latitude, longitude} = await findLatitudeAndLongitude(location)
+    console.log(latitude, longitude)
+    try {
+      const response = await axios.get(`https://weather-report-proxy-server-jk7z.onrender.com/weather`,{
+          params: {
+              "lat": latitude,
+              "lon": longitude,
+          }
+      })
+      console.log(response.data.main.temp)
+      const current_temp = response.data.main.temp; //in kelvin
+      return current_temp
+    } catch (error) {
+      console.log(error, "Temperature could not be found.")
+  }
+  }
+
   return (
     <div className="App">
       <header className="App-header">
