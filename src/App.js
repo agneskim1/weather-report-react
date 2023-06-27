@@ -1,23 +1,21 @@
-import logo from './logo.svg';
 import './App.css';
+import React from 'react';
+import SearchBar from './components/SearchBar';
 
 function App() {
+  const [location, setLocation] = React.useState("")
+
+  const updateLocation = (location) => {
+    setLocation(location)
+  }
   return (
     <div className="App">
       <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
       </header>
+      <body>
+        <h2>{location}</h2>
+        <SearchBar locationCallBack = {updateLocation}/>
+      </body>
     </div>
   );
 }
