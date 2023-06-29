@@ -2,7 +2,7 @@ import React from 'react'
 import './SearchBar.css'
 import { Input, Button, InputGroup} from '@chakra-ui/react'
 
-const SearchBar = ({ locationCallBack }) => {
+const SearchBar = ({locationCallBack }) => {
     const [formFields, setFormFields] = React.useState("")
     const handleChange = event => setFormFields(
         event.target.value

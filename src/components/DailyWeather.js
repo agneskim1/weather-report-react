@@ -1,7 +1,15 @@
 import React from 'react'
 import {ListItem, OrderedList, Box, Image} from '@chakra-ui/react'
 
-function DailyWeather({maxTemp, minTemp, fahrenheit, icon}) {
+function DailyWeather({maxTemp, minTemp, fahrenheit, icon, weekDay}) {
+    const weekday= () => {
+        const weekdayList = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday']
+        if (weekDay > 6) {
+            return weekdayList[weekDay-7]
+        }else {
+            return weekdayList[weekDay]
+        }
+    }
     const convertTemperature = (temp) => { 
         return fahrenheit ? Math.floor(temp) : Math.floor((temp-32)*5/9)
     }
@@ -13,6 +21,7 @@ function DailyWeather({maxTemp, minTemp, fahrenheit, icon}) {
     return (
     <Box borderRadius={40} display="flex" justifyContent="center" textAlign="center" color='gray.50' backgroundColor='#CBD5E0' w={200} h={40}>
         <OrderedList styleType="none" className="temp-list" justifyContent="center" display='flex' flexDirection='column'textAlign='center'>
+            <ListItem>{weekday()}</ListItem>
             <ListItem> {weatherIcon} </ListItem>
             <ListItem textAlign="center" >High {convertedMaxTemp}°</ListItem>
             <ListItem textAlign="center" justifyContent="center">Low {convertedMinTemp}°</ListItem>
