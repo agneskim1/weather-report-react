@@ -1,8 +1,8 @@
 import './App.css';
 import React from 'react';
 import SearchBar from './components/SearchBar';
+import CurrentWeather from './components/CurrentWeather';
 import DailyWeather from './components/DailyWeather';
-import WeeklyWeather from './components/WeekWeather';
 import axios from 'axios'
 import { ChakraProvider, Box } from '@chakra-ui/react'
 
@@ -10,7 +10,8 @@ function App() {
   const [location, setLocation] = React.useState("Atlanta")
   const [temp, setTemp] = React.useState(0)
   const [weatherConditions, setWeatherConditions] = React.useState("")
-  const [dailyTemp, setDailyTemp] = React.useState("Space")
+  // const [dailyTemp, setDailyTemp] = React.useState("Space")
+  const [weekWeatherData, setWeekWeatherData] = React.useState([])
 
   React.useEffect(()=> {
     findTemp(location)
@@ -19,7 +20,7 @@ function App() {
   const updateLocation = (location) => {
     setLocation(location)
     findTemp(location)
-    findDailyTemp(location)
+    findWeekTempData(location)
   }
   //Location API
   const findLatitudeAndLongitude = async (city) => {
@@ -28,7 +29,6 @@ function App() {
         {
             params: {
                 q: city,
-
             }
         });
         const latitude = response.data[0].lat;
@@ -56,7 +56,7 @@ function App() {
   }
   }
   //OpenWeather 5 Day API
-  const findDailyTemp = async () => {
+  const findWeekTempData = async () => {
     let {latitude, longitude} = await findLatitudeAndLongitude(location)
     try {
       const response = await axios.get(`https://weather-report-proxy-server-jk7z.onrender.com/weather/daily`,{
@@ -65,9 +65,8 @@ function App() {
               "lon": longitude,
           }
       })
-      const dailyTemp = response.data.list[0].main.temp; 
-      console.log(dailyTemp)
-      setDailyTemp(dailyTemp)
+      const weekTempData = response.data.list; 
+      setWeekWeatherData(weekTempData)
     } catch (error) {
       console.log(error, "Temperature could not be found.")
   }
@@ -82,8 +81,21 @@ function App() {
       Clouds: "⛅️",
       Snow: "⛅️",
       Haze: "⛅️",
+      Fog: "⛅️",
     }
     setWeatherConditions(weatherDictionary[condition])
+  }
+
+  const weeklyTemperatures = () => {
+    return (
+      weekWeatherData.map((day, index)=> {
+        return (
+          <ol key={index}>
+            <DailyWeather maxTemp ={day.main.temp_max} minTemp={day.main.temp_min}/>
+          </ol>
+        )
+      })
+    )
   }
 
   return (
@@ -94,10 +106,10 @@ function App() {
       <body className="main">
         <h2 className="location-header">{location}</h2>
         <SearchBar locationCallBack = {updateLocation}/>
-        {dailyTemp}
         <div className="bar"></div>
         <Box>{weatherConditions} </Box>
-        <div className="daily-weather"><DailyWeather temp = {temp}/> </div>
+        <div className="daily-weather"><CurrentWeather temp = {temp}/> </div>
+        {weeklyTemperatures()}
       </body>
     </div>
     </ChakraProvider>
