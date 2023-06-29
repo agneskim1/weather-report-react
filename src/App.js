@@ -5,19 +5,19 @@ import CurrentWeather from './components/CurrentWeather';
 import DailyWeather from './components/DailyWeather';
 import DateObject from "react-date-object";
 import axios from 'axios'
-import { ChakraProvider, Box, Container, Image, SimpleGrid} from '@chakra-ui/react'
+import { ChakraProvider, Box, Heading, Container, Image, SimpleGrid} from '@chakra-ui/react'
 
 function App() {
   const [location, setLocation] = React.useState("Atlanta")
-  const [temp, setTemp] = React.useState(0)
+  const [temp, setTemp] = React.useState(90)
   const [weatherConditions, setWeatherConditions] = React.useState("01d")
   const [weekWeatherData, setWeekWeatherData] = React.useState([])
   const [fahrenheit, setFahrenheit] = React.useState(true)
   
-  React.useEffect(()=> {
-    // findTemp(location)
-    updateLocation(location)
-  },[])
+  // React.useEffect(()=> {
+  //   // findTemp(location)
+  //   updateLocation(location)
+  // },[])
   
   let date = new DateObject()
   const month = date.month.name
@@ -32,8 +32,11 @@ function App() {
   }
 
   const updateLocation = (locationInput) => {
+    console.log("here")
     setLocation(locationInput)
+    console.log(location)
     findTemp(location)
+    console.log(location)
     findWeekTempData(location)
   }
   //Location API
@@ -91,9 +94,7 @@ function App() {
       <Image alt="weather condition icon" src={`https://openweathermap.org/img/wn/${weatherConditions}@2x.png`}/>
     )
   }
-  let newl = new Date()
-  // console.log(newl.getDay())
-  newl.setDate(newl.getDate()+1)
+  
   //Sending the Weekly Temp data to DailyWeather
   const weeklyTemperatures = () => {
     return (
@@ -111,12 +112,15 @@ function App() {
   return (
     <ChakraProvider >
     <Container height='100%' width='100%' >
-        <h2 className="location-header">{location}</h2>
-        <Container textAlign='center'>{weekday}, {month} {day} </Container>
+        <Heading size='2xl'textTransform='capitalize' text-align='center' className="location-header">{location}</Heading>
+        <Heading as='h6' fontWeight='light' size='sm' marginTop='2vh' textAlign='center'>{weekday}, {month} {day} </Heading>
         <SearchBar margin={4} locationCallBack = {updateLocation}/>
-        <Box display='flex' justifyContent='center' marginTop={10}> {weatherConditionIcon()} </Box>
-        <Box display="flex" flexDirection="column"><CurrentWeather temp = {temp} fahrenheit={fahrenheit} setToFahrenheit={setToFahrenheit} setToCelcius={setToCelcius}/> </Box>
-        <SimpleGrid display='flex' justifyContent='center' marginTop={20} columns={5} spacing={2}> {weeklyTemperatures()} </SimpleGrid>
+        <Box borderRadius={40} margin={6} justifyContent="center" textAlign="center" color='gray.50' backgroundColor='#CBD5E0'> 
+          <Heading size='lg' fontWeight='light'>Today</Heading>
+          <Box display='flex' justifyContent='center'> {weatherConditionIcon()} </Box>
+          <Box display="flex" flexDirection="column" padding={3}><CurrentWeather temp = {temp} fahrenheit={fahrenheit} setToFahrenheit={setToFahrenheit} setToCelcius={setToCelcius}/> </Box>
+        </Box>
+        <SimpleGrid display='flex' justifyContent='center' columns={5} spacing={2}> {weeklyTemperatures()} </SimpleGrid>
     </Container>
     </ChakraProvider>
   )

@@ -19,7 +19,7 @@ const SearchBar = ({locationCallBack }) => {
             </div >
                 <InputGroup marginTop={10} className="input-location"> 
                     <Input colorScheme="cyan" width="200px" className="location-box" value={formFields} onChange={handleChange} placeholder='cityname' />
-                    <Button onClick = {handleSubmit}>Search</Button>
+                    <Button onClick ={handleSubmit}>Search</Button>
                 </InputGroup>
         </form>
     )
