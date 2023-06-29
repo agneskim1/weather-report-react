@@ -2,15 +2,7 @@ import React from 'react'
 import './CurrentWeather.css'
 import { Button, ButtonGroup, Container } from '@chakra-ui/react'
 
-const DailyWeather = ({temp}) => {
-    const [fahrenheit, setFahrenheiht] = React.useState(true)
-
-    const setToFahrenheit = () => {
-        setFahrenheiht(true)
-    }
-    const setToCelcius =()=> {
-        setFahrenheiht(false)
-    }
+const DailyWeather = ({temp, fahrenheit, setToFahrenheit, setToCelcius}) => {
     const temperature = fahrenheit ? Math.floor(temp) : Math.floor((temp-32)*5/9)
     const label = fahrenheit ? "F" : "C"
     

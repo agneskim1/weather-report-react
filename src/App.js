@@ -11,11 +11,19 @@ function App() {
   const [temp, setTemp] = React.useState(0)
   const [weatherConditions, setWeatherConditions] = React.useState("")
   const [weekWeatherData, setWeekWeatherData] = React.useState([])
+  const [fahrenheit, setFahrenheit] = React.useState(true)
 
   React.useEffect(()=> {
     findTemp(location)
   },[])
   
+  const setToFahrenheit = () => {
+    setFahrenheit(true)
+  }
+  const setToCelcius =()=> {
+    setFahrenheit(false)
+  }
+
   const updateLocation = (location) => {
     setLocation(location)
     findTemp(location)
@@ -91,7 +99,7 @@ function App() {
       weekWeatherData.map((day, index)=> {
         return (
           <ol className="temp-list" key={index}>
-              <DailyWeather maxTemp ={day.main.temp_max} minTemp={day.main.temp_min}/>
+              <DailyWeather maxTemp ={day.main.temp_max} minTemp={day.main.temp_min} fahrenheit={fahrenheit}/>
           </ol>
         )
       })
@@ -107,7 +115,7 @@ function App() {
         <h2 className="location-header">{location}</h2>
         <SearchBar margin={4} locationCallBack = {updateLocation}/>
         <Container marginTop={10} centerContent backgroundColor='tomato' w="50%" h="10vh" >{weatherConditions}  </Container>
-        <Box display="flex" flexDirection="column" margin={10}><CurrentWeather temp = {temp}/> </Box>
+        <Box display="flex" flexDirection="column" margin={10}><CurrentWeather temp = {temp} fahrenheit={fahrenheit} setToFahrenheit={setToFahrenheit} setToCelcius={setToCelcius}/> </Box>
         <SimpleGrid display='flex' justifyContent='center' marginLeft={3} marginRight= {3} columns={5} centerContent spacing={2}> {weeklyTemperatures()} </SimpleGrid>
       </body>
     </div>
