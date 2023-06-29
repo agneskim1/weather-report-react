@@ -1,6 +1,8 @@
 import React from 'react'
+import './SearchBar.css'
+import { Input, Button, InputGroup} from '@chakra-ui/react'
 
-const SearchBar = ({locationCallBack}) => {
+const SearchBar = ({ locationCallBack }) => {
     const [formFields, setFormFields] = React.useState("")
     const handleChange = event => setFormFields(
         event.target.value
@@ -11,14 +13,16 @@ const SearchBar = ({locationCallBack}) => {
         setFormFields("")
     }
     return (
-    <form className="location-form" onSubmit={handleSubmit}>
-        <div>
-            <label htmlFor="location"> Location</label>
-            <input value = {formFields} onChange={handleChange}/>
-        </div>
-        <button className="location-search-button" type="submit" value="search">Search</button>    
-    </form>
-)
+        <form className="location-form" onSubmit={handleSubmit}>
+            <div className="location">
+                {/* <label className="location-text" htmlFor="location"> Location</label> */}
+            </div >
+                <InputGroup className="input-location"> 
+                    <Input colorScheme="cyan" width="200px" className="location-box" value={formFields} onChange={handleChange} placeholder='cityname' />
+                    <Button onClick = {handleSubmit}>Search</Button>
+                </InputGroup>
+        </form>
+    )
 }
 
 export default SearchBar;

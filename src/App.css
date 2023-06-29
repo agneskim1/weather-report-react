@@ -1,1 +1,51 @@
+.App {
+    font-family: Tahoma, Geneva, sans-serif;
+    font-size: 19px;
+    letter-spacing: 2.2px;
+    word-spacing: 0.2px;
+    color: #000000;
+    font-weight: normal;
+    text-decoration: none;
+    font-style: normal;
+    font-variant: normal;
+    text-transform: none;
+    background: linear-gradient(to bottom right, #0181C2, #04A7F9, #4BC4F7);
+}
+
+.bar {
+    width: 100%;
+    height: 0;
+    border-bottom: solid 1px #fff;
+    opacity: 0.4;
+    margin: 10px 0;
+}
+
+.main {
+    border-bottom: solid 1px #fff;
+    margin: 10px 0;
+    height: 100%;
+    border-radius: 7px;
+    border: black 2px solid;
+}
+
+.location-header {
+    text-align: center;
+    font: bolder;
+    gap: 5px;
+    letter-spacing: 2px;
+    text-transform: capitalize;
+    font-size: 50px;
+}
+/* Daily Temperature */
+.daily-weather {
+    -webkit-box-shadow: 0px 7px 52px 4px rgba(249,235,255,0.42); 
+    box-shadow: 0px 7px 52px 4px rgba(249,235,255,0.42);
+    border: 2px purple solid;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    align-content: center;
+    flex-direction: column;
+    height: 500px;
+}
 

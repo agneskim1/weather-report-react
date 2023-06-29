@@ -1,0 +1,23 @@
+.temp-container {
+    display: flex;
+    border: pink 3px solid;
+    flex-direction: column;
+    justify-content: left;
+    height: 20%;
+    width: 30%;
+    padding: 3px;
+}
+
+.temp-button {
+    justify-content: center;
+    display: flex;
+    flex-direction: row;
+    padding: 2px;
+    margin: 10px;
+    color: pink;
+}
+
+.temp-button button {
+    margin: 10px;
+    color: pink;
+}
