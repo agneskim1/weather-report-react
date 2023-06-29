@@ -4,13 +4,12 @@ import SearchBar from './components/SearchBar';
 import CurrentWeather from './components/CurrentWeather';
 import DailyWeather from './components/DailyWeather';
 import axios from 'axios'
-import { ChakraProvider, Box } from '@chakra-ui/react'
+import { ChakraProvider, Box, Container, Flex, Spacer, SimpleGrid} from '@chakra-ui/react'
 
 function App() {
   const [location, setLocation] = React.useState("Atlanta")
   const [temp, setTemp] = React.useState(0)
   const [weatherConditions, setWeatherConditions] = React.useState("")
-  // const [dailyTemp, setDailyTemp] = React.useState("Space")
   const [weekWeatherData, setWeekWeatherData] = React.useState([])
 
   React.useEffect(()=> {
@@ -87,11 +86,12 @@ function App() {
   }
 
   const weeklyTemperatures = () => {
+    // console.log(weekWeatherData, "weekdata")
     return (
       weekWeatherData.map((day, index)=> {
         return (
-          <ol key={index}>
-            <DailyWeather maxTemp ={day.main.temp_max} minTemp={day.main.temp_min}/>
+          <ol className="temp-list" key={index}>
+              <DailyWeather maxTemp ={day.main.temp_max} minTemp={day.main.temp_min}/>
           </ol>
         )
       })
@@ -105,11 +105,10 @@ function App() {
       </header>
       <body className="main">
         <h2 className="location-header">{location}</h2>
-        <SearchBar locationCallBack = {updateLocation}/>
-        <div className="bar"></div>
-        <Box>{weatherConditions} </Box>
-        <div className="daily-weather"><CurrentWeather temp = {temp}/> </div>
-        {weeklyTemperatures()}
+        <SearchBar margin={4} locationCallBack = {updateLocation}/>
+        <Container marginTop={10} centerContent backgroundColor='tomato' w="50%" h="10vh" >{weatherConditions}  </Container>
+        <Box display="flex" flexDirection="column" margin={10}><CurrentWeather temp = {temp}/> </Box>
+        <SimpleGrid display='flex' justifyContent='center' marginLeft={3} marginRight= {3} columns={5} centerContent spacing={2}> {weeklyTemperatures()} </SimpleGrid>
       </body>
     </div>
     </ChakraProvider>

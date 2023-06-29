@@ -1,6 +1,6 @@
 import React from 'react'
 import './CurrentWeather.css'
-import { Button, ButtonGroup } from '@chakra-ui/react'
+import { Button, ButtonGroup, Container } from '@chakra-ui/react'
 
 const DailyWeather = ({temp}) => {
     const [fahrenheit, setFahrenheiht] = React.useState(true)
@@ -15,16 +15,14 @@ const DailyWeather = ({temp}) => {
     const label = fahrenheit ? "F" : "C"
     
     return (
-    <div className="temp-container">
-        <div>{temperature}°{label}
-        <div className='temp-buttom'> 
-            <ButtonGroup gap='2'> 
+    <Container backgroundColor='tomato' textAlign='center'>
+        <div>{temperature}°{label} 
+            <ButtonGroup gap='2' display="flex" flexDirection="row" justifyContent='center'> 
                 <Button onClick={setToFahrenheit}> F </Button>
                 <Button onClick = {setToCelcius}> C </Button>
             </ButtonGroup>
         </div>
-        </div>
-    </div>
+    </Container>
     )
 }
 
