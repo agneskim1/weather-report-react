@@ -4,12 +4,12 @@ import SearchBar from './components/SearchBar';
 import CurrentWeather from './components/CurrentWeather';
 import DailyWeather from './components/DailyWeather';
 import axios from 'axios'
-import { ChakraProvider, Box, Container, Flex, Spacer, SimpleGrid} from '@chakra-ui/react'
+import { ChakraProvider, Box, Container, Image, SimpleGrid} from '@chakra-ui/react'
 
 function App() {
   const [location, setLocation] = React.useState("Atlanta")
   const [temp, setTemp] = React.useState(0)
-  const [weatherConditions, setWeatherConditions] = React.useState("")
+  const [weatherConditions, setWeatherConditions] = React.useState("01d")
   const [weekWeatherData, setWeekWeatherData] = React.useState([])
   const [fahrenheit, setFahrenheit] = React.useState(true)
 
@@ -56,8 +56,8 @@ function App() {
       })
       const currentTemp = response.data.main.temp; 
       setTemp(currentTemp)
-      const currentCondition = response.data.weather[0].main
-      weatherIcon(currentCondition)
+      const currentCondition = response.data.weather[0].icon
+      setWeatherConditions(currentCondition)
     } catch (error) {
       console.log(error, "Temperature could not be found.")
   }
@@ -76,49 +76,38 @@ function App() {
       setWeekWeatherData(weekTempData)
     } catch (error) {
       console.log(error, "Temperature could not be found.")
-  }
-  }
-  //Temperature Icon
-  const weatherIcon = (condition) => {
-    console.log(condition)
-    const weatherDictionary = {
-      Rain: "🌧",
-      Clear: "☀️",
-      ThunderStorms: "🌩",
-      Clouds: "⛅️",
-      Snow: "⛅️",
-      Haze: "⛅️",
-      Fog: "⛅️",
-    }
-    setWeatherConditions(weatherDictionary[condition])
+  }}
+
+  //TemperatureIcon2
+  const weatherConditionIcon = () => {
+    return (
+      <Image boxSize='10vh' alt="weather condition icon" src={`https://openweathermap.org/img/wn/${weatherConditions}@2x.png`}/>
+    )
   }
 
   const weeklyTemperatures = () => {
-    // console.log(weekWeatherData, "weekdata")
     return (
       weekWeatherData.map((day, index)=> {
         return (
           <ol className="temp-list" key={index}>
-              <DailyWeather maxTemp ={day.main.temp_max} minTemp={day.main.temp_min} fahrenheit={fahrenheit}/>
+              <DailyWeather maxTemp ={day.main.temp_max} minTemp={day.main.temp_min} fahrenheit={fahrenheit} icon={day.weather[0].icon}/>
           </ol>
         )
       })
     )
   }
-
+  // bgGradient='linear(to-l, #0181C2, #04A7F9, #4BC4F7)' border='2px black solid'
   return (
-    <ChakraProvider>
-    <div className="App">
-      <header className="App-header">
-      </header>
-      <body className="main">
+    <ChakraProvider >
+    <Container height='100%' width='100%' >
+      {/* <body className="main"> */}
         <h2 className="location-header">{location}</h2>
         <SearchBar margin={4} locationCallBack = {updateLocation}/>
-        <Container marginTop={10} centerContent backgroundColor='tomato' w="50%" h="10vh" >{weatherConditions}  </Container>
-        <Box display="flex" flexDirection="column" margin={10}><CurrentWeather temp = {temp} fahrenheit={fahrenheit} setToFahrenheit={setToFahrenheit} setToCelcius={setToCelcius}/> </Box>
-        <SimpleGrid display='flex' justifyContent='center' marginLeft={3} marginRight= {3} columns={5} centerContent spacing={2}> {weeklyTemperatures()} </SimpleGrid>
-      </body>
-    </div>
+        <Box display='flex' justifyContent='center' marginTop={10}> {weatherConditionIcon()} </Box>
+        <Box display="flex" flexDirection="column"><CurrentWeather temp = {temp} fahrenheit={fahrenheit} setToFahrenheit={setToFahrenheit} setToCelcius={setToCelcius}/> </Box>
+        <SimpleGrid display='flex' justifyContent='center' marginTop={20} columns={5} centerContent spacing={2}> {weeklyTemperatures()} </SimpleGrid>
+      {/* </body> */}
+    </Container>
     </ChakraProvider>
   )
 }
