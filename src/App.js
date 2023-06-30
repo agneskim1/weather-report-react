@@ -9,7 +9,7 @@ import { ChakraProvider, Box, Heading, Container, Image, SimpleGrid } from '@cha
 
 function App() {
   const [location, setLocation] = React.useState("Atlanta")
-  const [temp, setTemp] = React.useState(72)
+  const [temp, setTemp] = React.useState(74)
   const [weatherConditions, setWeatherConditions] = React.useState("01d")
   const [weekWeatherData, setWeekWeatherData] = React.useState([])
   const [fahrenheit, setFahrenheit] = React.useState(true)
@@ -76,7 +76,8 @@ function App() {
       console.log(error, "Temperature could not be found.")
     }
   }
-  //OpenWeather 5 Day API
+
+  //OpenWeather 5 Day API 
   const findWeekTempData = async () => {
     let { latitude, longitude } = await findLatitudeAndLongitude(location)
     try {
