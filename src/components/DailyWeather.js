@@ -19,7 +19,7 @@ function DailyWeather({maxTemp, minTemp, fahrenheit, icon, weekDay}) {
     const convertedMaxTemp = convertTemperature(maxTemp)
     const convertedMinTemp = convertTemperature(minTemp)
     return (
-    <Box borderRadius={40} display="flex" justifyContent="center" textAlign="center" color='gray.50' backgroundColor='#CBD5E0' w={200} h={60}>
+    <Box overflowX='auto' borderRadius={40} display="flex" justifyContent="center" textAlign="center" color='gray.50' backgroundColor='#CBD5E0' w={200} h={60}>
         <OrderedList styleType="none" className="temp-list" justifyContent="center" display='flex' flexDirection='column'textAlign='center'>
             <ListItem>{weekday()}</ListItem>
             <ListItem> {weatherIcon} </ListItem>
