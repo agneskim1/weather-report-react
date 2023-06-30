@@ -9,7 +9,7 @@ import { ChakraProvider, Box, Heading, Container, Image, SimpleGrid } from '@cha
 
 function App() {
   const [location, setLocation] = React.useState("Atlanta")
-  const [temp, setTemp] = React.useState(70)
+  const [temp, setTemp] = React.useState(72)
   const [weatherConditions, setWeatherConditions] = React.useState("01d")
   const [weekWeatherData, setWeekWeatherData] = React.useState([])
   const [fahrenheit, setFahrenheit] = React.useState(true)
