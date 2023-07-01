@@ -10,10 +10,10 @@ import { ChakraProvider, Box, Heading, Container, Image, SimpleGrid } from '@cha
 function App() {
   const [location, setLocation] = React.useState("Atlanta")
   const [temp, setTemp] = React.useState(74)
-  const [weatherConditions, setWeatherConditions] = React.useState("01d")
+  const [weatherConditionsIcon, setWeatherConditionsIcon] = React.useState("01d")
   const [weekWeatherData, setWeekWeatherData] = React.useState([])
   const [fahrenheit, setFahrenheit] = React.useState(true)
-
+  const [weatherCondition, setWeatherCondition] = React.useState("Clear")
   // React.useEffect(() => {
   //   const loadPage = async () => {
   //     try {
@@ -70,8 +70,10 @@ function App() {
       })
       const currentTemp = response.data.main.temp;
       setTemp(currentTemp)
-      const currentCondition = response.data.weather[0].icon
-      setWeatherConditions(currentCondition)
+      const currentConditionIcon = response.data.weather[0].icon
+      setWeatherConditionsIcon(currentConditionIcon)
+      const weatherCondition = response.data.weather[0].main
+      setWeatherCondition(weatherCondition)
     } catch (error) {
       console.log(error, "Temperature could not be found.")
     }
@@ -97,18 +99,19 @@ function App() {
   //TemperatureIcon
   const weatherConditionIcon = () => {
     return (
-      <Image alt="weather condition icon" src={`https://openweathermap.org/img/wn/${weatherConditions}@2x.png`} />
+      <Image alt="weather condition icon" src={`https://openweathermap.org/img/wn/${weatherConditionsIcon}@2x.png`} />
     )
   }
 
   //Sending the Weekly Temp data to DailyWeather
   const weeklyTemperatures = () => {
+    console.log(weekWeatherData)
     return (
       weekWeatherData.map((day, index) => {
         let weekday = new Date()
         return (
           <ol className="temp-list" key={index}>
-            <DailyWeather weekDay={weekday.getDay() + index} maxTemp={day.main.temp_max} minTemp={day.main.temp_min} fahrenheit={fahrenheit} icon={day.weather[0].icon} />
+            <DailyWeather weekDay={weekday.getDay() + index} temp={day.main.temp} condition={day.weather[0].main} fahrenheit={fahrenheit} icon={day.weather[0].icon} />
           </ol>
         )
       })
@@ -122,8 +125,9 @@ function App() {
         <Heading as='h6' fontWeight='light' size='sm' marginTop='2vh' textAlign='center'>{weekday}, {month} {day} </Heading>
         <SearchBar margin={4} locationCallBack={updateLocation} />
         <Box borderRadius={40} margin={6} justifyContent="center" textAlign="center" color='gray.50' backgroundColor='#CBD5E0'>
-          <Heading size='lg' fontWeight='light'>Today</Heading>
+          <Heading size='xl' fontWeight='bold' >Today</Heading>
           <Box display='flex' justifyContent='center'> {weatherConditionIcon()} </Box>
+          <Heading size='md' fontWeight='normal'>{weatherCondition}</Heading>
           <Box display="flex" flexDirection="column" padding={3}><CurrentWeather temp={temp} fahrenheit={fahrenheit} setToFahrenheit={setToFahrenheit} setToCelcius={setToCelcius} /> </Box>
         </Box>
         <SimpleGrid display='flex' justifyContent='center' columns={5} spacing={2}> {weeklyTemperatures()} </SimpleGrid>
